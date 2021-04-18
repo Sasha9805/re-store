@@ -75,6 +75,35 @@ const reducer = (state = initialState, action) => {
         cartItems: updateCartItems(state.cartItems, newItem, itemIndex)
       };
 
+    case 'ALL_BOOKS_REMOVED_FROM_CART':
+      const bookIdx = state.cartItems.findIndex(({id}) => id === action.payload);
+      return {
+        ...state,
+        cartItems: state.cartItems.filter((item, idx) => idx !== bookIdx)
+      };
+
+    case 'BOOK_REMOVED_FROM_CART':
+      const orderBook = state.cartItems.find(({id}) => id === action.payload);
+      if (orderBook.count === 1) {
+        return state;
+      }
+
+      const orderIdx = state.cartItems.findIndex(({id}) => id === action.payload);
+      const newOrder = {
+        ...orderBook,
+        count: orderBook.count - 1,
+        total: orderBook.total - orderBook.total / orderBook.count
+      };
+
+      return {
+        ...state,
+        cartItems: [
+          ...state.cartItems.slice(0, orderIdx),
+          newOrder,
+          ...state.cartItems.slice(orderIdx + 1)
+        ]
+      };
+
     default:
       return state;
   }

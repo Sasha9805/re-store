@@ -68,7 +68,7 @@ const mapStateToProps = ({ shoppingCart: { cartItems, orderTotal } }) => {
   return {
     total: orderTotal,
     items: cartItems
-  }
+  };
 };
 
 const mapDispatchToProps = {

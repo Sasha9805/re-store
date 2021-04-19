@@ -22,6 +22,12 @@ const store = createStore(reducer, applyMiddleware(
   stringMiddleware,
   logMiddleware));
 
+const myAction = (dispatch) => {
+  setTimeout(() => dispatch({
+    type: 'DELAYED_ACTION'
+  }), 2000);
+};
+
 const delayedActionCreator = (time) => (dispatch) => {
   setTimeout(() => dispatch({
     type: 'DELAYED_ACTION'
